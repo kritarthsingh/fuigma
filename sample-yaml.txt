@@ -1,0 +1,50 @@
+############################################################################
+stages:
+	- build
+	- test
+
+web app dev job1 build:
+	stage: build
+	script:
+		- mkdir mybuild
+		- echo Spandan > mybuild/hello.txt
+		- echo "Other" > my.txt
+		- echo "My Build Job"
+	artifacts:
+		paths:
+				- mybuild/
+
+web app dev job2 test:
+	stage: test
+	script:
+		- grep Spandan mybuild/hello.txt
+		- echo "My test Job"
+
+##################################################################################
+stages:
+    - build
+    - test
+
+build laptop:
+   image: alpine
+   stage: build
+   script: 
+       - echo "Building a Laptop"
+       - mkdir build
+       - touch build/computer.txt
+       - echo "mainboard" >> build/computer.txt
+       - cat build/computer.txt
+       - echo "Keyboard" >> build/computer.txt
+       - cat build/computer.txt
+
+   artifacts:
+       paths: 
+          - build
+
+test laptop: 
+    image: alpine
+    stage: test
+    script: 
+        - test -f build/computer.txt
+        - grep "mainboard" build/computer.txt
+        - grep "keyboard" build/computer.txt
